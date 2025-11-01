@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrder.Domain", "FoodOrder.Domain\FoodOrder.Domain.csproj", "{38C2F9BB-8C90-4A78-AD4A-57E593301581}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrder.Application", "FoodOrder.Application\FoodOrder.Application.csproj", "{69FD87BC-53B1-497D-A9D2-129D3F616B32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrder.Infrastructure", "FoodOrder.Infrastructure\FoodOrder.Infrastructure.csproj", "{6FB4B578-FD96-4E47-A342-F5D600008FC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodOrder.API", "FoodOrder.API\FoodOrder.API.csproj", "{CFD99F6E-3CDD-44EA-AF2D-55931C471047}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38C2F9BB-8C90-4A78-AD4A-57E593301581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C2F9BB-8C90-4A78-AD4A-57E593301581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C2F9BB-8C90-4A78-AD4A-57E593301581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C2F9BB-8C90-4A78-AD4A-57E593301581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69FD87BC-53B1-497D-A9D2-129D3F616B32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69FD87BC-53B1-497D-A9D2-129D3F616B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69FD87BC-53B1-497D-A9D2-129D3F616B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69FD87BC-53B1-497D-A9D2-129D3F616B32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FB4B578-FD96-4E47-A342-F5D600008FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB4B578-FD96-4E47-A342-F5D600008FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB4B578-FD96-4E47-A342-F5D600008FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB4B578-FD96-4E47-A342-F5D600008FC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD99F6E-3CDD-44EA-AF2D-55931C471047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD99F6E-3CDD-44EA-AF2D-55931C471047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD99F6E-3CDD-44EA-AF2D-55931C471047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD99F6E-3CDD-44EA-AF2D-55931C471047}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
