@@ -9,10 +9,7 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-
-
 namespace FoodOrder.Api.Controllers;
-
 
 [Route("auth")]
 public class AuthenticationController : ApiController
