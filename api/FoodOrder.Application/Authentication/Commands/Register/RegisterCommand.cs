@@ -1,4 +1,5 @@
 using FoodOrder.Application.Authentication.Common;
+using FoodOrder.Domain.Common;
 using ErrorOr;
 using MediatR;
 
@@ -8,5 +9,6 @@ public record RegisterCommand(
     string FirstName,
     string LastName,
     string Email,
-    string Password
+    string Password,
+    string Role = UserRole.Buyer
 ) : IRequest<ErrorOr<AuthenticationResult>>;
