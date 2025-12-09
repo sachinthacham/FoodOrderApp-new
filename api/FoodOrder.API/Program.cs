@@ -51,15 +51,30 @@ using FoodOrder.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
-    .AddPresentation()
+    .AddPresentation(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
-   
+
 }
+//To solve cors errors
+builder.Services.AddCors(builder =>
+{
+    builder.AddPolicy("AllowAll", options =>
+    {
+        options.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+
 var app = builder.Build();
 {
+    app.UseCors("AllowAll");
     app.UseExceptionHandler("/error");
     app.UseHttpsRedirection();
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.MapControllers();
     app.Run();
 }
