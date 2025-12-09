@@ -6,6 +6,9 @@ using FoodOrder.Application.Orders.Commands.UpdateStatus;
 using FoodOrder.Application.Orders.Queries.GetOrder;
 using FoodOrder.Application.Orders.Queries.GetOrdersByUser;
 using FoodOrder.Application.Orders.Queries.GetAllOrders;
+using FoodOrder.Application.Orders.Queries.GetOrdersBySeller;
+using FoodOrder.Application.Orders.Queries.GetOrdersByDeliveryBoy;
+using FoodOrder.Application.Orders.Queries.GetAvailableOrders;
 using FoodOrder.Application.Contracts.Orders;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,7 +18,7 @@ using ErrorOr;
 namespace FoodOrder.Api.Controllers
 {
     [Route("orders")]
-     [Authorize(Roles = "Admin,Seller")]
+    [Authorize] // Require authentication but allow all roles
     public class OrdersController : ApiController
     {
         private readonly ISender _mediator;
@@ -97,10 +100,65 @@ namespace FoodOrder.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")] // Only admins can see all orders
+        [Authorize(Roles = "Admin,Seller,DeliveryBoy")] // Admins, Sellers, and DeliveryBoys can see all orders
         public async Task<IActionResult> GetAllOrders()
         {
             var query = new GetAllOrdersQuery();
+            var result = await _mediator.Send(query);
+
+            return result.Match(
+                orders => Ok(orders),
+                errors => Problem(errors)
+            );
+        }
+
+        [HttpGet("seller/my-orders")]
+        [Authorize(Roles = "Seller")]
+        public async Task<IActionResult> GetSellerOrders()
+        {
+            var userIdString = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var sellerId))
+            {
+                return Unauthorized();
+            }
+
+            var query = new GetOrdersBySellerQuery(sellerId);
+            var result = await _mediator.Send(query);
+
+            return result.Match(
+                orders => Ok(orders),
+                errors => Problem(errors)
+            );
+        }
+
+        [HttpGet("delivery/available")]
+        [Authorize(Roles = "DeliveryBoy,Admin")]
+        public async Task<IActionResult> GetAvailableOrders()
+        {
+            var query = new GetAvailableOrdersQuery();
+            var result = await _mediator.Send(query);
+
+            return result.Match(
+                orders => Ok(orders),
+                errors => Problem(errors)
+            );
+        }
+
+        [HttpGet("delivery/my-orders")]
+        [Authorize(Roles = "DeliveryBoy")]
+        public async Task<IActionResult> GetDeliveryBoyOrders()
+        {
+            var userIdString = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var deliveryBoyId))
+            {
+                return Unauthorized();
+            }
+
+            var query = new GetOrdersByDeliveryBoyQuery(deliveryBoyId);
             var result = await _mediator.Send(query);
 
             return result.Match(
@@ -113,7 +171,23 @@ namespace FoodOrder.Api.Controllers
         [Authorize(Roles = "Admin,Seller,DeliveryBoy")]
         public async Task<IActionResult> UpdateOrderStatus(Guid id, UpdateOrderStatusRequest request)
         {
-            var command = new UpdateOrderStatusCommand(id, request.Status);
+            // Get user ID and role from JWT token
+            var userIdString = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (string.IsNullOrEmpty(userRole))
+            {
+                return Unauthorized();
+            }
+
+            Guid? userId = null;
+            if (!string.IsNullOrEmpty(userIdString) && Guid.TryParse(userIdString, out var parsedUserId))
+            {
+                userId = parsedUserId;
+            }
+
+            var command = new UpdateOrderStatusCommand(id, request.Status, userRole, userId);
             var result = await _mediator.Send(command);
 
             return result.Match(
