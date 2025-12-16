@@ -1,0 +1,9 @@
+using FoodOrder.Application.Common.Interfaces.Services;
+
+namespace FoodOrder.Infrastructure.Services;
+
+public class DateTimeProvider : IDateTimeProvider
+{
+    public DateTime UtcNow => DateTime.UtcNow;
+}
+
