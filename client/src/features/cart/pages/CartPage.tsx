@@ -1,11 +1,26 @@
 // src/pages/CartPage.tsx
 import { useCartStore } from "../../../store/useCartStore";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function CartPage() {
-  const { cart,subtotal, increaseQuantity, decreaseQuantity, removeFromCart, clearCart } =
-    useCartStore();
+  const {
+    cart,
+    subtotal,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+    clearCart,
+    loadCart,
+  } = useCartStore();
+  const { token } = useAuthStore();
+
+  useEffect(() => {
+    if (token) {
+      loadCart(token);
+    }
+  }, [token, loadCart]);
 
   const [deliveryFee, setDeliveryFee] = useState(5); // example delivery fee
   const total = subtotal + (cart.length > 0 ? deliveryFee : 0);
@@ -34,29 +49,45 @@ export default function CartPage() {
                 className="flex items-center justify-between bg-white p-4 rounded-lg shadow"
               >
                 <div className="flex items-center gap-4">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-20 h-20 object-cover rounded"
-                  />
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-20 h-20 object-cover rounded"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-300 rounded flex items-center justify-center">
+                      <span className="text-gray-600 text-xl font-bold">
+                        {item.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
                   <div>
                     <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-gray-500">${item.price}</p>
+                    <p className="text-gray-500">${item.price.toFixed(2)}</p>
                   </div>
                 </div>
 
                 {/* Quantity Controls */}
                 <div className="flex items-center gap-2">
                   <button
-                    className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition"
-                    onClick={() => decreaseQuantity(item._id)}
+                    className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition disabled:opacity-50"
+                    disabled={!token}
+                    onClick={async () => {
+                      if (!token) return;
+                      await decreaseQuantity(item.id, token);
+                    }}
                   >
                     -
                   </button>
                   <span className="w-6 text-center">{item.quantity}</span>
                   <button
-                    className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition"
-                    onClick={() => increaseQuantity(item._id)}
+                    className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 transition disabled:opacity-50"
+                    disabled={!token}
+                    onClick={async () => {
+                      if (!token) return;
+                      await increaseQuantity(item.id, token);
+                    }}
                   >
                     +
                   </button>
@@ -64,8 +95,12 @@ export default function CartPage() {
 
                 {/* Remove Item */}
                 <button
-                  className="text-red-500 font-bold hover:underline"
-                  onClick={() => removeFromCart(item._id)}
+                  className="text-red-500 font-bold hover:underline disabled:opacity-50"
+                  disabled={!token}
+                  onClick={async () => {
+                    if (!token) return;
+                    await removeFromCart(item.id, token);
+                  }}
                 >
                   Remove
                 </button>
@@ -74,8 +109,12 @@ export default function CartPage() {
 
             {/* Clear Cart */}
             <button
-              onClick={clearCart}
-              className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+              onClick={async () => {
+                if (!token) return;
+                await clearCart(token);
+              }}
+              disabled={!token}
+              className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition disabled:opacity-50"
             >
               Clear Cart
             </button>
@@ -104,7 +143,10 @@ export default function CartPage() {
               <span className="text-lg font-bold">${total.toFixed(2)}</span>
             </div>
 
-            <Link to="/order" className="w-full bg-red-500 text-white py-3 px-3 rounded-lg hover:bg-red-600 transition mb-4">
+            <Link
+              to="/order"
+              className="w-full bg-red-500 text-white py-3 px-3 rounded-lg hover:bg-red-600 transition mb-4"
+            >
               Proceed to Checkout
             </Link>
 
