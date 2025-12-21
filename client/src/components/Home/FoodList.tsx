@@ -4,15 +4,18 @@ import { food_list } from "../../assets/frontend_assets/assets"; // adjust path 
 //import removeButton from "../../assets/frontend_assets/remove_icon_red.png";
 //import addButton from "../../assets/frontend_assets/add_icon_green.png";
 import { useCartStore } from "../../store/useCartStore";
+import { useAuthStore } from "../../store/useAuthStore";
 import { useMenuStore } from "../../store/useMenuStore";
 
 export default function FoodList() {
   const { selectedCategory } = useMenuStore();
-  const { cart, addToCart, increaseQuantity, decreaseQuantity } =
+  const { cart, restaurantId, addToCart, increaseQuantity, decreaseQuantity } =
     useCartStore();
-useEffect(() => {
-    console.log("Cart updated:", cart);  
-}, [cart]);
+  const { token } = useAuthStore();
+
+  useEffect(() => {
+    console.log("Cart updated:", cart);
+  }, [cart]);
 
   const filteredFoods =
     selectedCategory && selectedCategory !== ""
@@ -29,6 +32,7 @@ useEffect(() => {
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredFoods.map((food) => {
             const cartItem = cart.find((i) => i._id === food._id);
+            const cartDisabled = !token || !restaurantId;
 
             return (
               <div
@@ -55,14 +59,20 @@ useEffect(() => {
                     {!cartItem ? (
                       <button
                         className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600 transition"
-                        onClick={() =>
-                          addToCart({
-                            _id: food._id,
-                            name: food.name,
-                            price: food.price,
-                            image: food.image,
-                          })
-                        }
+                        disabled={cartDisabled}
+                        onClick={async () => {
+                          if (cartDisabled) return;
+                          await addToCart(
+                            {
+                              _id: food._id,
+                              name: food.name,
+                              price: food.price,
+                              image: food.image,
+                            },
+                            restaurantId ?? undefined,
+                            token ?? undefined
+                          );
+                        }}
                       >
                         Add
                       </button>
@@ -70,14 +80,28 @@ useEffect(() => {
                       <div className="flex items-center gap-2">
                         <button
                           className="px-2 py-1 bg-gray-200 rounded"
-                          onClick={() => decreaseQuantity(food._id)}
+                          disabled={cartDisabled}
+                          onClick={async () => {
+                            if (cartDisabled) return;
+                            await decreaseQuantity(
+                              cartItem.id,
+                              token ?? undefined
+                            );
+                          }}
                         >
                           -
                         </button>
                         <span>{cartItem.quantity}</span>
                         <button
                           className="px-2 py-1 bg-gray-200 rounded"
-                          onClick={() => increaseQuantity(food._id)}
+                          disabled={cartDisabled}
+                          onClick={async () => {
+                            if (cartDisabled) return;
+                            await increaseQuantity(
+                              cartItem.id,
+                              token ?? undefined
+                            );
+                          }}
                         >
                           +
                         </button>
