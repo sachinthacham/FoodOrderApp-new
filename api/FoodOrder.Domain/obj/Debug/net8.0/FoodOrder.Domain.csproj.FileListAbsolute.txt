@@ -10,3 +10,4 @@ F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Dom
 F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Domain\obj\Debug\net8.0\refint\FoodOrder.Domain.dll
 F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Domain\obj\Debug\net8.0\FoodOrder.Domain.pdb
 F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Domain\obj\Debug\net8.0\ref\FoodOrder.Domain.dll
+F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Domain\obj\Debug\net8.0\FoodOrder.Domain.sourcelink.json

@@ -15,3 +15,4 @@ F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Inf
 F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Infrastructure\obj\Debug\net8.0\refint\FoodOrder.Infrastructure.dll
 F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Infrastructure\obj\Debug\net8.0\FoodOrder.Infrastructure.pdb
 F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Infrastructure\obj\Debug\net8.0\ref\FoodOrder.Infrastructure.dll
+F:\My Own Projects\My Final Year Projects\FoodOrderApplication\api\FoodOrder.Infrastructure\obj\Debug\net8.0\FoodOrder.Infrastructure.sourcelink.json

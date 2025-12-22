@@ -1,0 +1,22 @@
+# Build outputs
+bin/
+obj/
+
+# DLL files
+*.dll
+*.pdb
+*.exe
+*.deps.json
+*.runtimeconfig.json
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE files
+.vs/
+.idea/
+*.swp
+*.swo

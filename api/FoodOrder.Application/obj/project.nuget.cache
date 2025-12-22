@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "LaHcILwTRYiYWJMQnpnxNuGVR0Gt9dVqWz5vdW70AbRPWQytV9XlF1/lWCZDXtZPb/OJ1Q1oUuy/v0537Cqi1Q==",
+  "dgSpecHash": "Aerg0GvfHp1T/E5rRdlW48xp4xcKBWTvjyHH1TR+aZcS/qtdcS+ipMCFW3s9OPFANOBXAIpQ/cdtzsO4o1aRTg==",
   "success": true,
   "projectFilePath": "F:\\My Own Projects\\My Final Year Projects\\FoodOrderApplication\\api\\FoodOrder.Application\\FoodOrder.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sachinthaChamindu\\.nuget\\packages\\erroror\\2.0.1\\erroror.2.0.1.nupkg.sha512",
     "C:\\Users\\sachinthaChamindu\\.nuget\\packages\\fluentvalidation\\11.6.0\\fluentvalidation.11.6.0.nupkg.sha512",
+    "C:\\Users\\sachinthaChamindu\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.6.0\\fluentvalidation.dependencyinjectionextensions.11.6.0.nupkg.sha512",
     "C:\\Users\\sachinthaChamindu\\.nuget\\packages\\mediatr\\13.0.0\\mediatr.13.0.0.nupkg.sha512",
     "C:\\Users\\sachinthaChamindu\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\sachinthaChamindu\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.7\\microsoft.extensions.dependencyinjection.9.0.7.nupkg.sha512",
