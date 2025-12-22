@@ -2,11 +2,10 @@ using FoodOrder.Application.Common.interfaces.Authentication;
 using FoodOrder.Application.Common.Interfaces.Persistence;
 using FoodOrder.Application.Authentication.Common;
 using FoodOrder.Domain.Common.Errors;
+using FoodOrder.Domain.Common;
 using FoodOrder.Domain.Entities;
 using ErrorOr;
 using MediatR;
-
-
 
 namespace FoodOrder.Application.Authentication.Commands.Register;
 
@@ -22,25 +21,31 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
     }
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
         //01) validate the user doesn't already exist
-        if (_userRepository.GetUserByEmail(command.Email) is not null)
+        if (await _userRepository.GetUserByEmailAsync(command.Email) is not null)
         {
             return Errors.User.DuplicateEmail;
         }
 
-        //02) create user(generate unique Id) & Persisi to the database
+        //02) validate role
+        if (!UserRole.IsValidRole(command.Role))
+        {
+            return Errors.User.InvalidRole;
+        }
+
+        //03) create user(generate unique Id) & Persist to the database
         var user = new User
         {
             FirstName = command.FirstName,
             LastName = command.LastName,
             Email = command.Email,
-            Password = command.Password
+            Password = command.Password,
+            Role = command.Role
         };
-        _userRepository.Add(user);
+        await _userRepository.AddAsync(user);
 
 
-        //03) create Jwt token
+        //04) create Jwt token
 
         var token = _jwtTokenGenerator.GenerateToken(user);
         return new AuthenticationResult(
