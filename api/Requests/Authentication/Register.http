@@ -1,0 +1,14 @@
+
+
+POST http://localhost:5182/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe40@example.com",
+  "password": "SecurePassword12356!",
+  "role": "Admin"
+}
+
+### 
