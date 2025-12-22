@@ -1,0 +1,14 @@
+POST http://localhost:5182/orders
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMjU4ZTUzZC05YTA2LTRmYmEtOTJiYS1jNTc3MmU1OGZlOTAiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwianRpIjoiZWE2ZTk2OTEtMTg1Zi00ZTRhLWJjZWQtODI0MTRjZjA4OTk1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NjUxOTM5MDgsImlzcyI6ImZvb2Rlb3JkZXIiLCJhdWQiOiJmb29kZW9yZGVyIn0.enVIyFGSS-tM9nI9uyLq91nEHf5TRPIZtxwF1mzspgI
+
+{
+  "restaurantId": "E8889907-D626-45D1-AC4F-0675A2D980E7",
+  "items": [
+    {
+      "menuItemId": "36BFC9EB-D1A3-42F8-BA08-B9F4F6B7F57A",
+      "quantity": 2
+    }
+   
+  ]
+}
