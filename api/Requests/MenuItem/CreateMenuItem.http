@@ -1,0 +1,11 @@
+
+POST http://localhost:5182/restaurants/E8889907-D626-45D1-AC4F-0675A2D980E7/menu-items
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMjU4ZTUzZC05YTA2LTRmYmEtOTJiYS1jNTc3MmU1OGZlOTAiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwianRpIjoiOTFmMzVmMjctYjc1ZS00ZGFlLTg0NTQtYzYwZGFiMWMxZTUwIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NjUxODk3OTIsImlzcyI6ImZvb2Rlb3JkZXIiLCJhdWQiOiJmb29kZW9yZGVyIn0.b0LApvizp4bOQBSNVj2Hld8_TL82sYXJHbftQYl8Hs8
+
+{
+  "restaurantId": "E8889907-D626-45D1-AC4F-0675A2D980E7",
+  "name": "Margherita Pizza",
+  "description": "Classic pizza with tomato, mozzarella, and basil",
+  "price": 12.99
+}
