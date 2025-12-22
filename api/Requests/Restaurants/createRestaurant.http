@@ -1,0 +1,9 @@
+POST http://localhost:5182/restaurants
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMjU4ZTUzZC05YTA2LTRmYmEtOTJiYS1jNTc3MmU1OGZlOTAiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwianRpIjoiY2RjMTAyMTAtNjRlMy00ZDU2LWI3ZGMtYmYyMjUxYmU1ODdjIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3NjUxNzUxOTgsImlzcyI6ImZvb2Rlb3JkZXIiLCJhdWQiOiJmb29kZW9yZGVyIn0.NlY1jogGHIQQU01lvlHihAq8b2uapjeT--lphFCJYwI
+
+{
+  "name": "Pizza Palace",
+  "description": "Authentic Italian pizza with fresh ingredients",
+  "address": "123 Main Street, City, State 12345"
+}
