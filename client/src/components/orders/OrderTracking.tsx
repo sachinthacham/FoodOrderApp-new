@@ -75,7 +75,7 @@ export default function OrderTracking({ order }: OrderTrackingProps) {
           {ORDER_STATUSES.map((status, index) => {
             const isCompleted = index < currentStatusIndex;
             const isCurrent = index === currentStatusIndex;
-            const isPending = index > currentStatusIndex;
+            
 
             return (
               <div key={status.value} className="relative flex items-start">

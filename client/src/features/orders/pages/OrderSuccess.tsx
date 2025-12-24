@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { paymentService } from "../../payment/services/paymentService";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useCartStore } from "@/store/useCartStore";
@@ -7,7 +7,7 @@ import ProtectedRoute from "@/components/common/ProtectedRoute";
 
 function OrderSuccessContent() {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  
   const { token } = useAuthStore();
   const { clearCart } = useCartStore();
 

@@ -22,7 +22,7 @@ export default function CartPage() {
     }
   }, [token, loadCart]);
 
-  const [deliveryFee, setDeliveryFee] = useState(5); // example delivery fee
+  const [deliveryFee] = useState(5); // example delivery fee
   const total = subtotal + (cart.length > 0 ? deliveryFee : 0);
 
   return (

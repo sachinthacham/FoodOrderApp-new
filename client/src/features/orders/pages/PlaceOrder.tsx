@@ -6,7 +6,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
 
 function PlaceOrderContent() {
-  const { cart, subtotal, clearCart, restaurantId, loadCart } = useCartStore();
+  const { cart, subtotal, restaurantId, loadCart } = useCartStore();
   const { token, user } = useAuthStore();
   const navigate = useNavigate();
 

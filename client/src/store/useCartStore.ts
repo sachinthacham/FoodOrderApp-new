@@ -2,7 +2,7 @@ import { create } from "zustand";
 import {
   cartService,
   type Cart,
-  type CartItem as BackendCartItem,
+  
 } from "@/features/cart/services/cartService";
 import { useAuthStore } from "./useAuthStore";
 

@@ -3,7 +3,7 @@ import { orderService } from "@/features/orders/services/orderService";
 import type { Order } from "@/features/orders/services/orderService";
 import { useAuthStore } from "@/store/useAuthStore";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
-import { useAuthStore as useAuth } from "@/store/useAuthStore";
+
 
 function SellerOrdersContent() {
   const { token } = useAuthStore();
@@ -45,7 +45,7 @@ function SellerOrdersContent() {
     }
   };
 
-  const { user } = useAuth();
+ 
 
   const getStatusColor = (status: string) => {
     switch (status.toUpperCase()) {

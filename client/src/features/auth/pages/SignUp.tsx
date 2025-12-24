@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/useAuthStore";
 
@@ -11,7 +11,7 @@ export default function SignUp() {
   const { register, isLoading, error, clearError } = useAuthStore();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     clearError();
     try {
