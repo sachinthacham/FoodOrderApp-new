@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 // var builder = WebApplication.CreateBuilder(args);
 
 // // Add services to the container.
@@ -46,6 +47,7 @@
 using FoodOrder.API;
 using FoodOrder.Application;
 using FoodOrder.Infrastructure;
+using FoodOrder.Infrastructure.Persistence;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -70,6 +72,11 @@ builder.Services.AddCors(builder =>
 
 var app = builder.Build();
 {
+    using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<FoodOrderDbContext>();
+    dbContext.Database.Migrate();  // This creates DB and applies migrations
+}
     app.UseCors("AllowAll");
     app.UseExceptionHandler("/error");
     app.UseHttpsRedirection();
