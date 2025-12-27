@@ -4,9 +4,9 @@ services:
   # 1. SQL Server Database
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: foodorder  
+    container_name: foodorder-db
     environment:
-      SA_PASSWORD: "FoodOrder@123456!" 
+      SA_PASSWORD: "SQL_PASSWORD" 
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Express"
     ports:
@@ -29,9 +29,9 @@ services:
     container_name: foodorder-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=FoodOrder;User Id=sa;Password=FoodOrder@123456!;TrustServerCertificate=true;MultipleActiveResultSets=true;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=FoodOrder;User Id=sa;Password=SQL_PASSWORD;TrustServerCertificate=true;MultipleActiveResultSets=true;
     ports:
-      - "5000:80"
+      - "5000:8080" 
     depends_on:
       sqlserver:
         condition: service_healthy
@@ -44,7 +44,7 @@ services:
       dockerfile: Dockerfile
     container_name: foodorder-ui
     ports:
-      - "3000:80"
+      - "3000:80" 
     depends_on:
       - backend
     restart: unless-stopped
