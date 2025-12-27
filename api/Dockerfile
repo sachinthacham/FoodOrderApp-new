@@ -25,9 +25,7 @@ RUN dotnet build "FoodOrder.sln" -c Release -o /app/build
 # Publish the API project
 RUN dotnet publish "FoodOrder.API/FoodOrder.API.csproj" -c Release -o /app/publish
 
-
 # STAGE 2: RUNTIME
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 
 # Set working directory
@@ -41,4 +39,3 @@ EXPOSE 80
 
 # Command to run when container starts
 ENTRYPOINT ["dotnet", "FoodOrder.API.dll"]
-# Database migration will happen in Program.cs on startup
