@@ -1,7 +1,6 @@
-# STAGE 1: BUILD (with EF tools)
+# STAGE 1: BUILD
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-# Set working directory
 WORKDIR /src
 
 # Copy solution file
@@ -19,23 +18,16 @@ RUN dotnet restore "FoodOrder.sln"
 # Copy everything else
 COPY . .
 
-# Build the solution
+# Build and Publish
 RUN dotnet build "FoodOrder.sln" -c Release -o /app/build
-
-# Publish the API project
 RUN dotnet publish "FoodOrder.API/FoodOrder.API.csproj" -c Release -o /app/publish
 
 # STAGE 2: RUNTIME
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 
-# Set working directory
 WORKDIR /app
-
-# Copy published files
 COPY --from=build /app/publish .
 
-# Expose port 80
-EXPOSE 80
+EXPOSE 8080
 
-# Command to run when container starts
 ENTRYPOINT ["dotnet", "FoodOrder.API.dll"]
