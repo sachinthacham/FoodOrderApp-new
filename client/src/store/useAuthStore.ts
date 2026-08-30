@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { authService } from "@/features/auth/services/authService";
 import { ApiError } from "@/lib/api";
+import { useFavoritesStore } from "./useFavoritesStore";
 
 export type UserRole = "Admin" | "Seller" | "Buyer" | "DeliveryBoy";
 
@@ -160,6 +161,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
         isAuthenticated: false,
         error: null,
       });
+      useFavoritesStore.getState().reset();
     },
 
     clearError: () => set({ error: null }),
