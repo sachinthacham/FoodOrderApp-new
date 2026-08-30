@@ -22,6 +22,8 @@ type CartState = {
   subtotal: number;
   isLoading: boolean;
   error: string | null;
+  promoCode: string | null;
+  setPromoCode: (code: string | null) => void;
   loadCart: (token: string) => Promise<void>;
   addToCart: (
     item: Omit<CartItem, "quantity" | "id">,
@@ -58,6 +60,9 @@ export const useCartStore = create<CartState>((set, get) => ({
   subtotal: 0,
   isLoading: false,
   error: null,
+  promoCode: null,
+
+  setPromoCode: (code: string | null) => set({ promoCode: code }),
 
   syncCartFromBackend: (backendCart: Cart) => {
     const items = mapBackendCartToLocal(backendCart);
@@ -223,7 +228,7 @@ export const useCartStore = create<CartState>((set, get) => ({
         throw new Error(message);
       }
       await cartService.clearCart(authToken);
-      set({ cart: [], subtotal: 0, restaurantId: null });
+      set({ cart: [], subtotal: 0, restaurantId: null, promoCode: null });
     } catch (err: any) {
       set({ error: err.message || "Failed to clear cart" });
       throw err;
