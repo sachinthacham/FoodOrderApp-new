@@ -1,52 +1,18 @@
 import type { Order } from "@/features/orders/services/orderService";
+import { Check } from "lucide-react";
 
 interface OrderTrackingProps {
   order: Order;
 }
 
 const ORDER_STATUSES = [
-  {
-    value: "PLACED",
-    label: "Placed",
-    icon: "📝",
-    description: "Order placed by customer",
-  },
-  {
-    value: "CONFIRMED",
-    label: "Confirmed",
-    icon: "✅",
-    description: "Confirmed by restaurant",
-  },
-  {
-    value: "PREPARING",
-    label: "Preparing",
-    icon: "👨‍🍳",
-    description: "Order is being prepared",
-  },
-  {
-    value: "READY",
-    label: "Ready",
-    icon: "🍽️",
-    description: "Order is ready for pickup",
-  },
-  {
-    value: "PICKED_UP",
-    label: "Picked Up",
-    icon: "📦",
-    description: "Picked up by delivery person",
-  },
-  {
-    value: "ON_THE_WAY",
-    label: "On The Way",
-    icon: "🚗",
-    description: "On the way to you",
-  },
-  {
-    value: "DELIVERED",
-    label: "Delivered",
-    icon: "🎉",
-    description: "Order delivered",
-  },
+  { value: "PLACED", label: "Placed", icon: "📝" },
+  { value: "CONFIRMED", label: "Confirmed", icon: "✅" },
+  { value: "PREPARING", label: "Preparing", icon: "👨‍🍳" },
+  { value: "READY", label: "Ready", icon: "🍽️" },
+  { value: "PICKED_UP", label: "Picked Up", icon: "📦" },
+  { value: "ON_THE_WAY", label: "On The Way", icon: "🚗" },
+  { value: "DELIVERED", label: "Delivered", icon: "🎉" },
 ];
 
 export default function OrderTracking({ order }: OrderTrackingProps) {
@@ -54,62 +20,55 @@ export default function OrderTracking({ order }: OrderTrackingProps) {
     (status) => status.value === order.status.toUpperCase()
   );
 
-  const getStatusColor = (index: number, currentIndex: number) => {
-    if (index < currentIndex) {
-      return "bg-green-500 text-white"; // Completed
-    } else if (index === currentIndex) {
-      return "bg-blue-500 text-white animate-pulse"; // Current
-    } else {
-      return "bg-gray-200 text-gray-500"; // Pending
-    }
-  };
-
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-      <h3 className="text-xl font-bold mb-6">Order Tracking</h3>
-      <div className="relative">
-        {/* Timeline line */}
-        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+    <div>
+      <h4 className="font-semibold text-slate-900 dark:text-white mb-4 text-sm uppercase tracking-wider">
+        Order Tracking
+      </h4>
+      <div className="overflow-x-auto -mx-1 px-1">
+      <div className="flex items-start min-w-[640px] sm:min-w-0">
+        {ORDER_STATUSES.map((status, index) => {
+          const isCompleted = index < currentStatusIndex;
+          const isCurrent = index === currentStatusIndex;
+          const isLast = index === ORDER_STATUSES.length - 1;
 
-        <div className="space-y-6">
-          {ORDER_STATUSES.map((status, index) => {
-            const isCompleted = index < currentStatusIndex;
-            const isCurrent = index === currentStatusIndex;
-            
-
-            return (
-              <div key={status.value} className="relative flex items-start">
-                {/* Status circle */}
+          return (
+            <div key={status.value} className="flex-1 flex flex-col items-center relative">
+              {!isLast && (
                 <div
-                  className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${getStatusColor(
-                    index,
-                    currentStatusIndex
-                  )}`}
-                >
-                  {isCompleted ? "✓" : status.icon}
-                </div>
+                  className={`absolute top-4 left-1/2 w-full h-0.5 ${
+                    isCompleted ? "bg-green-500" : "bg-slate-200 dark:bg-slate-700"
+                  }`}
+                />
+              )}
 
-                {/* Content */}
-                <div className="ml-6 flex-1">
-                  <div
-                    className={`font-semibold ${
-                      isCurrent
-                        ? "text-blue-600"
-                        : isCompleted
-                        ? "text-green-600"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    {status.label}
-                  </div>
-                  <div className="text-sm text-gray-500 mt-1">
-                    {status.description}
-                  </div>
-                </div>
+              <div
+                className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 transition-colors ${
+                  isCompleted
+                    ? "bg-green-500 text-white"
+                    : isCurrent
+                    ? "bg-red-500 text-white animate-pulse ring-4 ring-red-500/20"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600"
+                }`}
+              >
+                {isCompleted ? <Check className="w-4 h-4" /> : status.icon}
               </div>
-            );
-          })}
-        </div>
+
+              <span
+                className={`mt-2 text-[11px] font-bold uppercase tracking-wide text-center px-1 ${
+                  isCurrent
+                    ? "text-red-500"
+                    : isCompleted
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-slate-400 dark:text-slate-600"
+                }`}
+              >
+                {status.label}
+              </span>
+            </div>
+          );
+        })}
+      </div>
       </div>
     </div>
   );
