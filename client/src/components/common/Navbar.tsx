@@ -2,14 +2,16 @@ import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { X, ShoppingCart, LogOut, User } from "lucide-react";
+import { X, ShoppingCart, LogOut, User, Sun, Moon } from "lucide-react";
 import { useCartStore } from "../../store/useCartStore";
 import { useAuthStore } from "../../store/useAuthStore";
+import { useThemeStore } from "../../store/useThemeStore";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const { cart } = useCartStore();
   const { user, isAuthenticated, logout } = useAuthStore();
+  const { theme, toggleTheme } = useThemeStore();
   const navigate = useNavigate();
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -25,7 +27,10 @@ export default function Navbar() {
     }
 
     const roleLinks: { [key: string]: { name: string; href: string }[] } = {
-      Buyer: [{ name: "My Orders", href: "/my-orders" }],
+      Buyer: [
+        { name: "Favorites", href: "/favorites" },
+        { name: "My Orders", href: "/my-orders" },
+      ],
       Seller: [
         { name: "Dashboard", href: "/seller/dashboard" },
         { name: "My Restaurants", href: "/seller/restaurants" },
@@ -79,6 +84,15 @@ export default function Navbar() {
             </Link>
           )}
 
+          {/* Dark mode toggle */}
+          <button
+            onClick={toggleTheme}
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            className="p-2 text-gray-700 hover:text-gray-900"
+          >
+            {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+
           {/* User Menu */}
           {isAuthenticated ? (
             <div className="flex items-center space-x-4 ml-4 pl-4 border-l">
@@ -121,6 +135,14 @@ export default function Navbar() {
               )}
             </Link>
           )}
+
+          <button
+            onClick={toggleTheme}
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            className="p-2 text-gray-700"
+          >
+            {theme === "dark" ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
+          </button>
 
           <Sheet>
             <SheetTrigger asChild>
