@@ -10,6 +10,7 @@ import PlaceOrder from "@/features/orders/pages/PlaceOrder";
 import OrderSuccess from "@/features/orders/pages/OrderSuccess";
 import MyOrders from "@/features/myOrders/pages/MyOrder";
 import RestaurantDetailPage from "../pages/RestaurantDetailPage";
+import FavoritesPage from "@/features/favorites/pages/FavoritesPage";
 
 // Seller pages
 import SellerDashboard from "../pages/seller/SellerDashboard";
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
       { path: "/order", element: <PlaceOrder /> },
       { path: "/order-success", element: <OrderSuccess /> },
       { path: "/my-orders", element: <MyOrders /> },
+      { path: "/favorites", element: <FavoritesPage /> },
 
       // Seller routes
       { path: "/seller/dashboard", element: <SellerDashboard /> },
