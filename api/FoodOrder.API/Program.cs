@@ -75,7 +75,8 @@ var app = builder.Build();
     using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<FoodOrderDbContext>();
-    dbContext.Database.Migrate();  // This creates DB and applies migrations
+    dbContext.Database.Migrate();  
+    DataSeeder.SeedData(dbContext);
 }
     app.UseCors("AllowAll");
     app.UseExceptionHandler("/error");
