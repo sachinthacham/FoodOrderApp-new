@@ -19,6 +19,9 @@ namespace FoodOrder.Infrastructure.Persistence
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
         public DbSet<Cart> Carts { get; set; } = null!;
         public DbSet<CartItem> CartItems { get; set; } = null!;
+        public DbSet<Review> Reviews { get; set; } = null!;
+        public DbSet<Address> Addresses { get; set; } = null!;
+        public DbSet<Favorite> Favorites { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
