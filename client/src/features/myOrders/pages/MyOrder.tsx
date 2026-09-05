@@ -4,6 +4,7 @@ import type { Order } from "@/features/orders/services/orderService";
 import { useAuthStore } from "@/store/useAuthStore";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
 import OrderTracking from "@/components/orders/OrderTracking";
+import { ShoppingBag, PackageSearch, Clock, Receipt, CheckCircle, Package } from "lucide-react";
 
 function MyOrdersContent() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -33,98 +34,160 @@ function MyOrdersContent() {
   const getStatusColor = (status: string) => {
     switch (status.toUpperCase()) {
       case "PLACED":
-        return "bg-yellow-100 text-yellow-700";
+      case "PENDING":
+        return "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-500/20";
       case "CONFIRMED":
-        return "bg-blue-100 text-blue-700";
+        return "bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20";
       case "PREPARING":
-        return "bg-purple-100 text-purple-700";
+        return "bg-purple-100 text-purple-700 dark:bg-purple-500/10 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20";
       case "READY":
-        return "bg-indigo-100 text-indigo-700";
+        return "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20";
       case "PICKED_UP":
-        return "bg-orange-100 text-orange-700";
       case "ON_THE_WAY":
-        return "bg-cyan-100 text-cyan-700";
+        return "bg-orange-100 text-orange-700 dark:bg-orange-500/10 dark:text-orange-400 border border-orange-200 dark:border-orange-500/20";
       case "DELIVERED":
-        return "bg-green-100 text-green-700";
+        return "bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400 border border-green-200 dark:border-green-500/20";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-slate-100 text-slate-700 dark:bg-slate-800/50 dark:text-slate-400 border border-slate-200 dark:border-slate-700";
     }
   };
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-6 py-12 text-center">
-        <p className="text-gray-600">Loading orders...</p>
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-32 pb-12 flex justify-center">
+        <div className="flex flex-col items-center gap-4">
+           <div className="w-12 h-12 rounded-full border-4 border-slate-200 dark:border-slate-800 border-t-red-500 animate-spin"></div>
+           <p className="text-slate-500 font-medium tracking-wide animate-pulse">Retrieving your orders...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12">
-      <h2 className="text-3xl font-bold mb-6">🛍️ My Orders</h2>
-
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-          {error}
-        </div>
-      )}
-
-      {!loading && !error && orders.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 mb-4">
-            You haven't placed any orders yet.
-          </p>
-        </div>
-      )}
-
-      {!loading && !error && orders.length > 0 && (
-        <div className="space-y-6">
-          {orders.map((order) => (
-            <div
-              key={order.id}
-              className="bg-white shadow rounded-lg p-6 border border-gray-200"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-lg">
-                  Order #{order.id.slice(0, 8)}
-                </h3>
-                <span
-                  className={`px-3 py-1 text-xs font-semibold rounded ${getStatusColor(
-                    order.status
-                  )}`}
-                >
-                  {order.status.replace(/_/g, " ")}
-                </span>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-12 overflow-hidden">
+      
+      {/* Immersive Header */}
+      <div className="relative h-[250px] w-full overflow-hidden mb-12">
+          <div className="absolute inset-0 bg-slate-900">
+            <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1555507036-ab1d4075cbf9?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent"></div>
+          </div>
+          <div className="absolute bottom-0 left-0 w-full z-10">
+            <div className="max-w-4xl mx-auto px-6 pb-10 animate-fade-in-up">
+              <div className="flex items-center gap-4 mb-3">
+                 <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white border border-white/20 shadow-lg">
+                    <ShoppingBag className="w-6 h-6" />
+                 </div>
+                 <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight drop-shadow-md">
+                    My Orders
+                 </h1>
               </div>
-
-              {/* Order Tracking Timeline */}
-              <OrderTracking order={order} />
-
-              <ul className="text-sm text-gray-600 space-y-2 mb-4">
-                {order.items.map((item) => (
-                  <li key={item.id} className="flex justify-between">
-                    <span>
-                      {item.name} × {item.quantity}
-                    </span>
-                    <span className="font-medium">
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex justify-between items-center pt-4 border-t">
-                <p className="font-bold text-lg">
-                  Total: ${order.totalAmount.toFixed(2)}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {new Date(order.orderDateTime).toLocaleDateString()}
-                </p>
-              </div>
+              <p className="text-slate-300 font-light max-w-xl text-lg ml-16 drop-shadow-sm">
+                Track your active orders and review your past culinary adventures.
+              </p>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 relative z-20 -mt-8">
+        {error && (
+          <div className="mb-8 p-4 glass-card border-red-500/20 bg-red-50/50 dark:bg-red-900/10 rounded-2xl flex items-start gap-4 text-red-600 animate-shake shadow-sm relative overflow-hidden">
+            <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500"></div>
+            <PackageSearch className="w-6 h-6 shrink-0 mt-0.5 text-red-500" />
+            <div>
+               <h3 className="font-bold text-red-700 dark:text-red-400 text-lg">Unable to fetch orders</h3>
+               <p className="text-sm font-medium mt-1">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {!loading && !error && orders.length === 0 && (
+          <div className="glass-card rounded-[2rem] p-16 text-center animate-fade-in-up border border-slate-200 dark:border-slate-800 shadow-sm mt-8">
+            <div className="w-24 h-24 bg-slate-100 dark:bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-6 border border-slate-200 dark:border-slate-700 text-slate-400">
+               <Receipt className="w-12 h-12" />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">No Past Orders Found</h2>
+            <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-md mx-auto">
+              Looks like you haven't ordered anything yet. When you do, your tracking and history will appear here.
+            </p>
+          </div>
+        )}
+
+        {!loading && !error && orders.length > 0 && (
+          <div className="space-y-6">
+            {orders.map((order, idx) => (
+              <div
+                key={order.id}
+                className="glass-card bg-white dark:bg-slate-900 rounded-[2rem] p-6 sm:p-8 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-lg transition-shadow animate-fade-in-up group overflow-hidden relative"
+                style={{ animationDelay: `${0.1 + (idx * 0.05)}s` }}
+              >
+                {/* Decorative highlight on active orders */}
+                {(order.status === "Pending" || order.status === "Placed" || order.status === "Preparing" || order.status === "On_the_way" || order.status === "Ready") && (
+                   <div className="absolute top-0 right-0 w-48 h-48 bg-red-500/5 dark:bg-red-500/10 rounded-full blur-3xl -mr-24 -mt-24 pointer-events-none group-hover:bg-red-500/10 dark:group-hover:bg-red-500/20 transition-colors"></div>
+                )}
+
+                <div className="flex flex-col sm:flex-row justify-between items-start mb-6 gap-4 relative z-10">
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <h3 className="font-extrabold text-xl text-slate-900 dark:text-white">
+                        Order <span className="text-slate-400 font-light">#{order.id.slice(0, 8)}</span>
+                      </h3>
+                       <span
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full shadow-sm ${getStatusColor(
+                          order.status
+                        )}`}
+                      >
+                         {order.status === "Delivered" && <CheckCircle className="w-3 h-3" />}
+                         {(order.status === "Pending" || order.status === "Placed") && <Clock className="w-3 h-3" />}
+                         {(order.status !== "Delivered" && order.status !== "Pending" && order.status !== "Placed") && <Package className="w-3 h-3" />}
+                        {order.status.replace(/_/g, " ")}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">
+                       <Clock className="w-4 h-4" />
+                       {new Date(order.orderDateTime).toLocaleString([], { dateStyle: 'long', timeStyle: 'short' })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Order Tracking Timeline */}
+                <div className="mb-6 relative z-10">
+                   <OrderTracking order={order} />
+                </div>
+
+                <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 border border-slate-100 dark:border-slate-800 relative z-10 mb-6">
+                  <h4 className="font-semibold text-slate-900 dark:text-white mb-4 text-sm uppercase tracking-wider">Order Items</h4>
+                  <ul className="text-sm font-medium space-y-3">
+                    {order.items.map((item) => (
+                      <li key={item.id} className="flex justify-between items-start group/item">
+                        <span className="text-slate-700 dark:text-slate-300">
+                          <span className="font-bold text-slate-900 dark:text-white inline-block w-6">{item.quantity}x</span> 
+                          {item.name}
+                        </span>
+                        <span className="font-bold text-slate-900 dark:text-white ml-4">
+                          ${(item.price * item.quantity).toFixed(2)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="flex justify-between items-end pt-5 border-t border-slate-100 dark:border-slate-800 relative z-10">
+                   <div>
+                      <span className="block text-sm text-slate-500 font-medium mb-1">Total Amount Paid</span>
+                      <p className="font-extrabold text-2xl text-slate-900 dark:text-white">
+                        ${order.totalAmount.toFixed(2)}
+                      </p>
+                   </div>
+                   <div className="text-slate-400 font-medium text-sm flex items-center gap-1">
+                      <Receipt className="w-4 h-4" /> Receipt Saved
+                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
