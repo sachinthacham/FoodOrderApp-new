@@ -1,27 +1,5 @@
-version: '3.8'
-
 services:
-  # 1. SQL Server Database
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: foodorder-db
-    environment:
-      SA_PASSWORD: "SQL_PASSWORD" 
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: "Express"
-    ports:
-      - "1433:1433"
-    volumes:
-      - sql-data:/var/opt/mssql
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $$SA_PASSWORD -Q 'SELECT 1' || exit 1"]
-      interval: 15s
-      retries: 10
-      start_period: 60s
-      timeout: 10s
-
-  # 2. .NET Backend API
+  # 1. .NET Backend API
   backend:
     build:
       context: ./api
@@ -29,25 +7,21 @@ services:
     container_name: foodorder-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=FoodOrder;User Id=sa;Password=SQL_PASSWORD;TrustServerCertificate=true;MultipleActiveResultSets=true;
+      - ConnectionStrings__DefaultConnection=Server=host.docker.internal;Database=FoodOrder;Trusted_Connection=true;MultipleActiveResultSets=true;TrustServerCertificate=true;
     ports:
-      - "5000:8080" 
-    depends_on:
-      sqlserver:
-        condition: service_healthy
+      - "5182:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
-  # 3. React Frontend
+  # 2. React Frontend
   frontend:
     build:
       context: ./client
       dockerfile: Dockerfile
     container_name: foodorder-ui
     ports:
-      - "3000:80" 
+      - "8080:80"
     depends_on:
       - backend
     restart: unless-stopped
-
-volumes:
-  sql-data:
